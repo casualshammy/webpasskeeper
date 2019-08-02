@@ -8,4 +8,4 @@ PHP 7+
 Just place all files to any folder. You're ready to go!
 
 ## URI params
-**?file={filename}** - pre-enters login info (example: /webpasskeeper.html?file=example@example.com)
+**?file={filename}** - pre-enters login info (*example: /webpasskeeper.html?file=example@example.com*)
