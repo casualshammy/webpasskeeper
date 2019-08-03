@@ -1,5 +1,5 @@
 # webpasskeeper
-Very simple online password manager. All calculations and cryptography are done at client side.
+Very simple online password manager. All calculations and cryptography are done on client side.
 
 ## Requirements
 PHP 7+
