@@ -268,18 +268,18 @@ function DisableEnterKey() {
 			
 function StartAutoLogoutTimer() {
 	timeShutdown = new Date().getTime() + 10 * 60 * 1000; // 10 min
-	setTimeout(function() {
-		$("#div_main").html("<strong>Your session has been automatically ended</strong>");
-		$("#div_login").html("");
-		login = null;
-		password = null;
-		db = null;
-	}, 10 * 60 * 1000); // 10 min
 	setInterval(function() {
 		var distance = timeShutdown - new Date().getTime();
 		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 		$("#search_form_legend").html("Management | Time to session end: " + minutes + "m " + seconds + "s");
+		if (distance <= 0 && (login !== null || password !== null || db !== null)) {
+			$("#div_main").html("<strong>Your session has been automatically ended</strong>");
+			$("#div_login").html("");
+			login = null;
+			password = null;
+			db = null;
+		}
 	}, 1000);
 }
 
