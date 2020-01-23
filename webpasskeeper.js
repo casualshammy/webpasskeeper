@@ -98,17 +98,25 @@ function getEntriesFromServer(func, errFunc) {
 	});
 }
 
+function resetTimer() {
+	timeShutdown = new Date().getTime() + 10 * 60 * 1000; // 10 min
+	$("#search_form_legend").css('background-color','#00FF00');
+	setTimeout(function() {
+		$("#search_form_legend").css('background-color','#FFFFFF');
+	}, 1000); // 1 sec
+}
+
 function updateView() {
 	var result = "<table border=\"1\"><tr><th>Entry</th><th>Login</th><th>Password</th></tr>";
 	var searchtext = $("#txtbox_search").val();
 	for (var i in db.data) {
 		if (searchtext != "") {
 			if (i.includes(searchtext)) {
-				result += `<tr><th><a href='#' onclick=\"copyTextToClipboard('${i}');return false;\">${i}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].login}');return false;\">${db.data[i].login}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].password}');return false;\">${db.data[i].password}</a></th></tr>`;
+				result += `<tr><th><a href='#' onclick=\"copyTextToClipboard('${i}');resetTimer();return false;\">${i}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].login}');resetTimer();return false;\">${db.data[i].login}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].password}');resetTimer();return false;\">${db.data[i].password}</a></th></tr>`;
 			}
-		}//<a href='#' onclick=\"copyTextToClipboard('${db.data[i].password}');return false;\">${db.data[i].password}</a>
+		}
 		else {
-			result += `<tr><th><a href='#' onclick=\"copyTextToClipboard('${i}');return false;\">${i}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].login}');return false;\">${db.data[i].login}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].password}');return false;\">${db.data[i].password}</a></th></tr>`;
+			result += `<tr><th><a href='#' onclick=\"copyTextToClipboard('${i}');resetTimer();return false;\">${i}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].login}');resetTimer();return false;\">${db.data[i].login}</a></th><th><a href='#' onclick=\"copyTextToClipboard('${db.data[i].password}');resetTimer();return false;\">${db.data[i].password}</a></th></tr>`;
 		}
 	}
 	result += "</table>";
@@ -159,6 +167,13 @@ function enableControls() {
 	$("#div_main").css("display", "inline");
 	$('#txtbox_search').focus();
 	$('#txtbox_search').on('input', updateView);
+	
+	// reset timeout timer
+	$('#txtbox_search').on('input', resetTimer);
+	$('#txtbox_modify_entry_name').on('input', resetTimer);
+	$('#txtbox_modify_entry_login').on('input', resetTimer);
+	$('#txtbox_modify_entry_password').on('input', resetTimer);
+	
 	StartAutoLogoutTimer();
 }
 
@@ -267,19 +282,19 @@ function DisableEnterKey() {
 }
 			
 function StartAutoLogoutTimer() {
-	timeShutdown = new Date().getTime() + 10 * 60 * 1000; // 10 min
-	setTimeout(function() {
-		$("#div_main").html("<strong>Your session has been automatically ended</strong>");
-		$("#div_login").html("");
-		login = null;
-		password = null;
-		db = null;
-	}, 10 * 60 * 1000); // 10 min
+	resetTimer();
 	setInterval(function() {
 		var distance = timeShutdown - new Date().getTime();
 		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 		$("#search_form_legend").html("Management | Time to session end: " + minutes + "m " + seconds + "s");
+		if (distance <= 0 && (login !== null || password !== null || db !== null)) {
+			$("#div_main").html("<strong>Your session has been automatically ended</strong>");
+			$("#div_login").html("");
+			login = null;
+			password = null;
+			db = null;
+		}
 	}, 1000);
 }
 
