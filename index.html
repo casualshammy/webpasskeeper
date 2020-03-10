@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="theme-color" content="#563d7c">
+	<title>passwd</title>
+	<link href="passwd_favicon.png" rel="icon" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="webpasskeeper.css">
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+	<script src="webpasskeeper.js"></script>
+	<style>
+		form  { display: table;      }
+		label { display: table-cell; }
+		input { display: table-cell; }
+	</style>
+</head>
+<body>
+	<div id="div_main" style="display: none;">
+		<div class="alert alert-primary" role="alert" id="search_form_legend" style="display: none;"></div>
+		<p>
+			<input id="txtbox_search" class="form-control txtbox-search" type="text" placeholder="Type here to search" autocomplete="off">
+		</p>
+		<p class="text-center">
+			<div>
+				<input id="txtbox_modify_entry_name" type="text" placeholder="Entry name" autocomplete="off" class="form-control input_entry">
+				<input id="txtbox_modify_entry_login" type="text" placeholder="Login" autocomplete="off" class="form-control input_entry">
+				<input id="txtbox_modify_entry_password" type="text" placeholder="Password" autocomplete="off" class="form-control input_entry">
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary input-entry-btn" id="btn_modify_entry">Add / modify / remove</button>
+			</div>
+		</p>
+		<p class="text-center">
+			<button type="button" class="btn btn-info" id="btn_import">Import database</button>
+			<button type="button" class="btn btn-info" id="btn_export">Export database</button>
+			<div id='importExportDiv' style="display: none;" contenteditable='true'>Click here and paste your data</div>
+		</p>
+		<div class="alert alert-info" role="alert">
+			Click on entry name, login or password to copy it to clipboard. Modify entry with empty login and password to delete it.
+		</div>
+		<div id="div_login"></div>
+	</div>
+	<br/>
+	<form class="login_form text-center" id="form_login">
+		<img class="mb-4" src="passwd_favicon.png" alt="" width="72" height="72">
+		<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+		
+		<label for="login" class="sr-only">Email address</label>
+		<input type="email" id="login" class="form-control" placeholder="Email address" required autofocus>
+		
+		<label for="password" class="sr-only">Password</label>
+		<input type="password" id="password" class="form-control" placeholder="Password" autocomplete="off" required >
+		
+		<button id="submit_login_data" class="btn btn-lg btn-primary btn-block">
+			<span id="spinner_login_btn" style="display: none;" class="spinner-border" role="status"></span>
+			<span id="text_login_btn">Login</span>
+		</button>
+		<button id="register_new_user" class="btn btn-lg btn-primary btn-block">Sign up</button>
+		<br/>
+		<p><a class="badge badge-info" href="https://github.com/casualshammy/webpasskeeper">GitHub</a></p>
+	</form>
+</body>
+</html>

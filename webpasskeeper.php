@@ -54,7 +54,7 @@ if ($postMethod === "register") {
 	echo "OK";
 	die();
 }
-elseif (GetPostField("method") === "get") {
+elseif ($postMethod === "get") {
 	$login = GetPostField("login");
 	$hashed_password = GetPostField("hashed_password");
 	if ($login === null or $hashed_password === null) {
@@ -69,7 +69,7 @@ elseif (GetPostField("method") === "get") {
 	}
 	echo $file_contents;
 }
-elseif (GetPostField("method") === "store") {
+elseif ($postMethod === "store") {
 	$login = GetPostField("login");
 	$hashed_password = GetPostField("hashed_password");
 	if ($login === null or $hashed_password === null) {
@@ -85,6 +85,20 @@ elseif (GetPostField("method") === "store") {
 	chmod($userfilesPrefix . $file_name, 0600);
 	echo "OK";
 	die();
+}
+elseif ($postMethod === "get-db-timestamp") {
+	$login = GetPostField("login");
+	$hashed_password = GetPostField("hashed_password");
+	if ($login === null or $hashed_password === null) {
+		http_response_code(403); // Incorrect credentials
+		die();
+	}
+	$file_name = hash("sha256", $login . $hashed_password);
+	if (file_exists($userfilesPrefix . $file_name) === false) {
+		http_response_code(404); // Secure file not found
+		die();
+	}
+	echo filemtime($userfilesPrefix . $file_name);
 }
 
 
