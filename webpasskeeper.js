@@ -25,6 +25,16 @@ function isNull(v) {
 	return v === null || v === undefined;
 }
 
+function generateRndString(length) {
+   var result           = "";
+   var characters       = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@%+\/'!#$^?:.(){}[]~";
+   var charactersLength = characters.length;
+   for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 function copyTextToClipboard(text) {
   if (!navigator.clipboard) {
 	console.error('Async clipboard is not available');
@@ -319,6 +329,14 @@ $(document).ready(function() {
 	});
 });
 
+// generate password button
+$(document).ready(function() {
+	$("#badge_gen_pass").click(function(e) {
+		var newPassword = generateRndString(16);
+		$("#txtbox_modify_entry_password").val(newPassword);
+	});
+});
+
 function DisableEnterKey() {
 	$(document).keypress(function(event) {
 		if (event.which == '13') {
@@ -333,12 +351,14 @@ function StartAutoLogoutTimer() {
 		var distance = timeShutdown - new Date().getTime();
 		if (distance > 2 * 60 * 1000) {
 			$("#search_form_legend").hide();
+			$("body").css("padding-top", "");
 		}
 		else {
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 			$("#search_form_legend").html("Time to session end: " + minutes + "m " + seconds + "s");
 			$("#search_form_legend").show();
+			$("body").css("padding-top", "100px");
 		}
 		if (distance <= 0 && (login !== null || password !== null || db !== null)) {
 			$("#div_main").html("<strong>Your session has been automatically ended</strong><br/><button type=\"button\" class=\"btn btn-info\" onclick=\"window.location.reload();\">Reload page</button>");

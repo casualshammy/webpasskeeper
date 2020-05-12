@@ -3,6 +3,18 @@ body {
   height: 100%;
 }
 
+form { 
+	display: table;
+}
+
+label {
+	display: table-cell;
+}
+
+input {
+	display: table-cell;
+}
+
 body {
   display: -ms-flexbox;
   display: flex;
@@ -57,31 +69,59 @@ body {
   font-weight: bold;
 }
 
+.display-none {
+	display: none;
+}
+
 .btn_cred {
 	max-width: 100%;
 	word-break: break-all;
 }
 
-.input_entry {
-	display: inline;
-	width: 30%;
-}
-
 .input-entry-btn {
 	width: 90%;
 	word-break: break-all;
+	margin-top:5px;
 }
 
-@media (max-width:600px) { 
-	.txtbox-search  {
-		width: 100%;
-		text-align: center;
+.text-center {
+	text-align: center;
+}
+
+.relative {
+	position:relative;
+}
+
+#badge_gen_pass {
+	position: absolute;
+	top: 11px;
+	right: 5px;
+}
+
+@media (max-width:600px) {
+	.div-fixed-top {
+		margin: 0 0 0 -40%;
+		position: fixed;
+		top: 2%;
+		z-index: 999;
+		width: 80%;
+		left: 50%;
+	}
+	.div-entry {
+		width: 80%;
 	}
 }
 
 @media (min-width:600px) {
-	.txtbox-search  {
-		width: 40%;
-		text-align: center;
+	.div-fixed-top  {
+		margin: 0 0 0 -250px;
+		position: fixed;
+		top: 1.5%;
+		z-index: 999;
+		width: 500px;
+		left: 50%;
+	}
+	.div-entry {
+		width: 400px;
 	}
 }
