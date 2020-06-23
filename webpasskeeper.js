@@ -122,7 +122,7 @@ function updateView() {
 	var searchtext = $("#txtbox_search").val();
 	for (var i in db.data) {
 		if (searchtext != "") {
-			if (i.includes(searchtext)) {
+			if (i.toLowerCase().includes(searchtext.toLowerCase())) {
 				result += 
 				`<div class=\"row\"> 
 					<div class=\"col-4 themed-grid-col\">
