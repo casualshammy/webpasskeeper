@@ -5,7 +5,7 @@ Very simple online password manager. All calculations and cryptography are done 
 PHP 7+
 
 ## Usage
-Just place all files to any writable folder on your web server. Open *index.html* in your browser. You're ready to go!
+Just place all files to any writable (because script need a place to store encrypted credentials) folder on your web server. Open *index.html* in your browser. You're ready to go!
 
 ## URI params
 **?file={filename}** - pre-enters login info (*example: /index.html?file=example@example.com*)
