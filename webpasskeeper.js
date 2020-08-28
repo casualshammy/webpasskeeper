@@ -120,40 +120,60 @@ function resetTimer() {
 function updateView() {
 	var result = "<div class=\"row mb-4\"> <div class=\"col-4 themed-grid-col-strong\">Entry</div> <div class=\"col-4 themed-grid-col-strong\">Login</div> <div class=\"col-4 themed-grid-col-strong\">Password</div> </div>";
 	var searchtext = $("#txtbox_search").val();
-	for (var i in db.data) {
-		if (searchtext != "") {
-			if (i.toLowerCase().includes(searchtext.toLowerCase())) {
-				result += 
-				`<div class=\"row\"> 
-					<div class=\"col-4 themed-grid-col\">
-						<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${i}');resetTimer();$('#txtbox_modify_entry_name').val('${i}');\">${i}</button>
-					</div>
-					<div class=\"col-4 themed-grid-col\">
-						<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${db.data[i].login}');resetTimer();\">${db.data[i].login}</button>
-					</div>
-					<div class=\"col-4 themed-grid-col\">
-						<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${db.data[i].password}');resetTimer();\">${db.data[i].password}</button>
-					</div>
-				</div>`;
-			}
-		}
-		else {
-			result += 
-			`<div class=\"row\"> 
-				<div class=\"col-4 themed-grid-col\">
-					<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${i}');resetTimer();$('#txtbox_modify_entry_name').val('${i}');\">${i}</button>
-				</div>
-				<div class=\"col-4 themed-grid-col\">
-					<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${db.data[i].login}');resetTimer();\">${db.data[i].login}</button>
-				</div>
-				<div class=\"col-4 themed-grid-col\">
-					<button type=\"button\" class=\"btn btn-info btn_cred\" onclick=\"copyTextToClipboard('${db.data[i].password}');resetTimer();\">${db.data[i].password}</button>
-				</div>
-			</div>`;
-		}
-	}
-	// result += "</table>";
 	$("#div_login").html(result);
+	for (var i in db.data) {
+		if (searchtext != "" && !i.toLowerCase().includes(searchtext.toLowerCase())) {
+			continue;
+		}
+		var row = document.createElement('div');
+		row.className= 'row';
+
+		var columnEntryName = document.createElement('div'); columnEntryName.className= 'col-4 themed-grid-col';
+		var columnLogin = document.createElement('div'); columnLogin.className= 'col-4 themed-grid-col';
+		var columnPassword = document.createElement('div'); columnPassword.className= 'col-4 themed-grid-col';
+
+		var buttonEntryName = document.createElement('button');
+		buttonEntryName.setAttribute("type", "button");
+		buttonEntryName.setAttribute("class", "btn btn-info btn_cred");
+		buttonEntryName.setAttribute("entry", i);
+		buttonEntryName.onclick = function(arg0) { 
+			var entry = arg0.srcElement.getAttribute("entry");
+			copyTextToClipboard(entry); resetTimer();
+			$('#txtbox_modify_entry_name').val(entry);
+		};
+		buttonEntryName.appendChild(document.createTextNode(i));
+		columnEntryName.appendChild(buttonEntryName);
+
+		var buttonLogin = document.createElement('button');
+		buttonLogin.setAttribute("type", "button");
+		buttonLogin.setAttribute("class", "btn btn-info btn_cred");
+		buttonLogin.setAttribute("entry", db.data[i].login);
+		buttonLogin.onclick = function(arg0) {
+			var entry = arg0.srcElement.getAttribute("entry");
+			copyTextToClipboard(entry);
+			resetTimer();
+		};
+		buttonLogin.appendChild(document.createTextNode(db.data[i].login));
+		columnLogin.appendChild(buttonLogin);
+
+		var buttonPassword = document.createElement('button');
+		buttonPassword.setAttribute("type", "button");
+		buttonPassword.setAttribute("class", "btn btn-info btn_cred");
+		buttonPassword.setAttribute("entry", db.data[i].password);
+		buttonPassword.onclick = function(arg0) {
+			var entry = arg0.srcElement.getAttribute("entry");
+			copyTextToClipboard(entry);
+			resetTimer();
+		};
+		buttonPassword.appendChild(document.createTextNode(db.data[i].password));
+		columnPassword.appendChild(buttonPassword);
+
+		row.appendChild(columnEntryName);
+		row.appendChild(columnLogin);
+		row.appendChild(columnPassword);
+
+		document.getElementById("div_login").appendChild(row);
+	}
 	$("#form_login").hide();
 }
 

@@ -92,6 +92,10 @@ body {
 	position:relative;
 }
 
+.firefox-center {
+	text-align: -moz-center;
+}
+
 #badge_gen_pass {
 	position: absolute;
 	top: 11px;
